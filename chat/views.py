@@ -4,7 +4,32 @@ from django.http import HttpResponse, JsonResponse
 
 # Create your views here.
 def home(request):
+
     return render(request, 'home.html')
+
+# Homepage
+def main(request):
+    if not request.user.is_authenticated:
+        return redirect('https://100014.pythonanywhere.com/')
+    else:
+        return render(request, 'main.html')
+
+def roomLink(request):
+    room = Room.objects.all()
+    
+    
+    return render(request, 'room-link.html', {'room': room})
+
+def checkviewLink(request):
+    room_details = Room.objects.get(name=room)
+    if Room.objects.filter(name=room).exists():
+        return redirect('/'+room)
+    else:
+        new_room = Room.objects.create(name=room)
+        new_room.save()
+        return redirect('/'+room)
+        
+
 
 def room(request, room):
     username = request.GET.get('username')
