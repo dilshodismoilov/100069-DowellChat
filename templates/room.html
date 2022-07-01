@@ -133,7 +133,9 @@ setInterval(function(){
         <input type="submit" value="Send">
     </form>
 </div>
-    
+    {% for i in message %}
+        <div> {{ i.room }} </div>
+    {% endfor %}
     
     
 

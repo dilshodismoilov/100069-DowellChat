@@ -8,11 +8,14 @@ urlpatterns = [
     #path('', views.home, name='home'),
     
     #Inaccessibles
-    path('<str:room>/', views.room, name='room'),
+    path('<str:room>/<int:id>/', views.room, name='room'),
     path('checkview', views.checkview, name='checkview'),
-    path('checkviewLink', views.checkviewLink, name='checkviewLink'),
     path('send', views.send, name='send'),
     path('getMessages/<str:room>/', views.getMessages, name='getMessages'),
 ]
 
 #'/'+room+'/?username='+username
+
+#<url> + randomly generated room id , which will be a alpha numeric value
+#room - id
+#id - randomly generated id
