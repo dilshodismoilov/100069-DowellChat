@@ -17,52 +17,12 @@ body {
   margin: 10px 0;
 }
 
-.darker {
-  border-color: #ccc;
-  background-color: #ddd;
-}
-
 .container::after {
   content: "";
   clear: both;
   display: table;
 }
-
-.container img {
-  float: left;
-  max-width: 60px;
-  width: 100%;
-  margin-right: 20px;
-  border-radius: 50%;
-}
-
-.container img.right {
-  float: right;
-  margin-left: 20px;
-  margin-right:0;
-}
-
-.time-right {
-  float: right;
-  color: #aaa;
-}
-
-.time-left {
-  float: left;
-  color: #999;
-}
-</style>
-</head>
-<body>
-
-<div align="center">
-    <h2>Welcome to  DowellChat</h2>
-</div>
-
-
-<div class="container">
-    <style>
-    input[type=text], select {
+ input[type=text], select {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -72,7 +32,7 @@ body {
     box-sizing: border-box;
     }
 
-    input[type=submit] {
+    input[type=submit], button {
     width: 100%;
     background-color: #4CAF50;
     color: white;
@@ -92,20 +52,32 @@ body {
     background-color: #f2f2f2;
     padding: 20px;
     }
-    </style>
+    
+    button:hover {
+    background-color: #45a049;
+    }
+</style>
+</head>
+<body>
 
+<div align="center">
+    <h2>Welcome to DowellChat</h2>
+</div>
+
+
+<div class="container">
     <form id="post-form" method="POST" action="checkview">
         {% csrf_token %}
         <label>Room Name</label>
         <input type="text" name="room_name" id="room_name" width="100px" />
         <label>Username</label>
         <input type="text" name="username" id="username" width="100px" />
-        <input type="submit" value="Enter Room">
+        <input type="submit" value="Create/Enter Room">
     </form>
 </div>
-
+    
 
 </body>
-
-
 </html>
+
+<!--https://100014.pythonanywhere.com-->
