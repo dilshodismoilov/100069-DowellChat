@@ -83,12 +83,28 @@ input[type=text], select {
     padding: 20px;
     }
     
+    button {
+    width: 15%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    }
+    
 </style>
 <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
 </head>
 <body>
 
-<h2>{{room}} - DowellChat</h2>        
+<h2>{{room}} - DowellChat</h2>
+
+<a href=""><button>Invite</button></a>  
+<a href=""><button>Stop</button></a>
+Current Users in Room: <div id= 'roomUsers'> </div>
+    
     
 <div id="display">
 
@@ -114,6 +130,7 @@ setInterval(function(){
                 var temp="<div class='container darker'>@<b>"+response.messages[key].user+"</b><p>"+response.messages[key].value+"</p><span class='time-left'>"+response.messages[key].date+"</span></div>";
                 $("#display").append(temp);
             }
+            
         },
         error: function(response){
             alert('An error occured')
@@ -125,6 +142,7 @@ setInterval(function(){
 
 
 <div class="container">
+    
     <form id="post-form">
         {% csrf_token %}
         <input type="hidden" name="username" id="username" value="{{username}}"/>
@@ -133,9 +151,10 @@ setInterval(function(){
         <input type="submit" value="Send">
     </form>
 </div>
-    {% for i in message %}
-        <div> {{ i.room }} </div>
-    {% endfor %}
+    <div>
+        
+    </div>
+    
     
     
 
