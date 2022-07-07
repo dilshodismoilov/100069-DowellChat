@@ -103,7 +103,7 @@ input[type=text], select {
 
 <a href=""><button>Invite</button></a>  
 <a href=""><button>Stop</button></a>
-Current Users in Room: <div id= 'roomUsers'> </div>
+<div><b>Current Room Users:</b><p id= 'roomUsers'> </p></div>
     
     
 <div id="display">
@@ -128,7 +128,7 @@ setInterval(function(){
             for (var key in response.messages)
             {
                 var temp="<div class='container darker'>@<b>"+response.messages[key].user+"</b><p>"+response.messages[key].value+"</p><span class='time-left'>"+response.messages[key].date+"</span></div>";
-                $("#display").append(temp);
+                $("#display").append(temp);                            
             }
             
         },
@@ -138,6 +138,35 @@ setInterval(function(){
     });
 },1000);
 })
+
+        
+
+//Show Room users 
+function roomUsrs(){
+    $.ajax({
+        type: 'GET',
+        url : "/getMessages/{{room}}/",
+        success: function(response){
+            console.log(response);
+            $("#roomUsers").empty();
+            var msg = response.messages;
+            for (var key in msg)
+            {
+                var ky = msg[key].user;
+                var ar = [' ', ...ky, ' ']
+                $("#roomUsers").append(ar);
+               
+            }
+                     
+        }
+    
+    });
+};
+//var roomUsers = "<b>"+msg[key].user+"</b>";
+//$("#roomUsers").append(roomUsers);
+roomUsrs();
+
+
 </script>
 
 

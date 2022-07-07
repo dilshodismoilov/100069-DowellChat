@@ -2,55 +2,28 @@ from django.shortcuts import render, redirect
 from chat.models import Room, Message
 from django.http import HttpResponse, JsonResponse
 from .dowellconnection import dowellconnection
-#import requests
+import requests, json
+from django.views.decorators.csrf import csrf_exempt
 
-# Create your views here.
-'''
-def Dowell_Login(username, password):
-    url="http://100014.pythonanywhere.com/api/login/"
-    userurl="http://100014.pythonanywhere.com/api/user/"
-    payload = {
-        'username': username,
-        'password': password
-    }
-    with requests.Session() as s:
-        p = s.post(url, data=payload)
-        if "Username" in p.text:
-            return p.text
-        else:
-            user = s.get(userurl)
-            return user.text
 
-r=Dowell_Login()
-'''
-
+@csrf_exempt
 def home(request):
-    
-    if "session_id" in request.session:
-        dic = request.session
-        session_id = dic["session_id"]
-        field = {"SessionID":session_id}
-        context= {}
-        data = dowellconnection("login","bangalore","login","login","login","6752828281","ABCDE","fetch",field,"nil")
-        data1 = json.loads(data)
-        lstodic = data1["data"][-1]
-        context["username"] = lstodic["Username"]
-        
-        return render(request, 'home.html', context)
-    
+    session_id = request.GET.get('session_id', None)
+    field = {"SessionID":session_id}
+    usr = dowellconnection("login","bangalore","login","registration","registration","10004545","ABCDE","fetch",field,"nil")
+    r = json.loads(usr)
+      
+    if len(r["data"])<1:
+        return redirect("https://100014.pythonanywhere.com/?code=100069")
     else:
-        return redirect("https://100014.pythonanywhere.com/")
-
+        return render(request, 'home.html') 
+    
     #return render(request, 'home.html')
 
 # Homepage
 def main(request):
     
     return render(request, 'main.html')
-'''
-def roomLink(request):    
-    return render(request, 'room-link.html')
-'''
         
 #def room(request, room, id):
 def room(request, room):

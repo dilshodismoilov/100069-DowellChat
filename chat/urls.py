@@ -3,7 +3,6 @@ from . import views
 
 urlpatterns = [
     path('', views.main, name='main'),
-    #path('room-link/', views.roomLink, name='room-link'),
     path('create-room/', views.home, name='home'),
     #path('', views.home, name='home'),
     
@@ -15,4 +14,4 @@ urlpatterns = [
     path('getMessages/<str:room>/', views.getMessages, name='getMessages'),
 ]
 
-#'/'+room+'/?username='+username
+
