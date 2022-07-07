@@ -38,6 +38,12 @@ def room(request, room):
         'message': message  
     })
 
+'''
+def generateLink(request):
+    
+    return render()
+'''
+
 def checkview(request):
     room = request.POST['room_name']
     username = request.POST['username']
