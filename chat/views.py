@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from chat.models import Room, Message
+from chat.models import Room, Message, CsvUpload
 from django.http import HttpResponse, JsonResponse
 from .dowellconnection import dowellconnection
-import requests, json
+import requests, json, io, csv
 from django.views.decorators.csrf import csrf_exempt
+from .forms import UploadFileForm
 
 
 @csrf_exempt
@@ -43,6 +44,42 @@ def generateLink(request):
     
     return render()
 '''
+#Bulk_Cr8
+def csv_upload(request):
+    room_list = []
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()            
+            obj = CsvUpload.objects.get(activated=False)
+            with open(obj.file_name.path, 'r') as f:
+                reader = csv.reader(f)
+                for room in enumerate(reader):
+
+                    if len(room) == 0:
+                         return HttpResponse('Make sure the file is not empty')
+                    else:                       
+                        getRoom = Room(name=room[1][0])
+                        room_list.append(getRoom)
+                        #Room.objects.create(name=room[1][0])
+                        #return redirect('/success')
+                Room.objects.bulk_create(room_list)
+                
+                obj.activated = True
+                obj.save()
+                return redirect('/success')
+                             
+    else:
+        form = UploadFileForm()
+    return render(request, 'upload.html', {'form': form})
+
+
+def bulkRoomSuccess(request):
+    return render(request, 'success.html')
+
+def roomList(request):
+    active_rooms = Room.objects.all()
+    return render(request, 'room-list.html', {'active_rooms': active_rooms})
 
 def checkview(request):
     room = request.POST['room_name']

@@ -182,7 +182,11 @@ roomUsrs();
         <input type="submit" value="Send">
     </form>
 </div>
+  
+    <script>
+         
     
+    </script> 
 
 </body>
  
@@ -206,11 +210,15 @@ roomUsrs();
     document.getElementById('message').value = ''
   });
     
-        
-        let getLinkId = document.getElementById('genLink');
+    let getLinkId = document.getElementById('genLink');
         let roomLink = "100069.pythonanywhere.com/{{ room }}/";
-        //let roomLink = "localhost:9000/{{ room }}/";
-        getLinkId.addEventListener('click', Swal.fire(roomLink, ));
+        getLinkId.addEventListener("click",                                    
+                                   
+                                   (event) => {
+            Swal.fire(roomLink, );
+             event.preventDefault();
+        }    );    
+    
                                    
     
 </script>
