@@ -96,14 +96,16 @@ input[type=text], select {
     
 </style>
 <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.all.min.js"></script>
+   
 </head>
 <body>
 
 <h2>{{room}} - DowellChat</h2>
 
-<a href=""><button>Invite</button></a>  
+<a href="" id='genLink'><button>Invite</button></a>  
 <a href=""><button>Stop</button></a>
-Current Users in Room: <div id= 'roomUsers'> </div>
+<div><b>Current Room Users:</b><p id= 'roomUsers'> </p></div>
     
     
 <div id="display">
@@ -128,7 +130,7 @@ setInterval(function(){
             for (var key in response.messages)
             {
                 var temp="<div class='container darker'>@<b>"+response.messages[key].user+"</b><p>"+response.messages[key].value+"</p><span class='time-left'>"+response.messages[key].date+"</span></div>";
-                $("#display").append(temp);
+                $("#display").append(temp);                            
             }
             
         },
@@ -138,6 +140,35 @@ setInterval(function(){
     });
 },1000);
 })
+
+        
+
+//Show Room users 
+function roomUsrs(){
+    $.ajax({
+        type: 'GET',
+        url : "/getMessages/{{room}}/",
+        success: function(response){
+            console.log(response);
+            $("#roomUsers").empty();
+            var msg = response.messages;
+            for (var key in msg)
+            {
+                var ky = msg[key].user;
+                var ar = [' ', ...ky, ' ']
+                $("#roomUsers").append(ar);
+               
+            }
+                     
+        }
+    
+    });
+};
+//var roomUsers = "<b>"+msg[key].user+"</b>";
+//$("#roomUsers").append(roomUsers);
+roomUsrs();
+
+
 </script>
 
 
@@ -151,15 +182,10 @@ setInterval(function(){
         <input type="submit" value="Send">
     </form>
 </div>
-    <div>
-        
-    </div>
-    
-    
     
 
 </body>
-
+ 
 <script type="text/javascript">
   $(document).on('submit','#post-form',function(e){
     e.preventDefault();
@@ -179,6 +205,14 @@ setInterval(function(){
     });
     document.getElementById('message').value = ''
   });
+    
+        
+        let getLinkId = document.getElementById('genLink');
+        let roomLink = "100069.pythonanywhere.com/{{ room }}/";
+        //let roomLink = "localhost:9000/{{ room }}/";
+        getLinkId.addEventListener('click', Swal.fire(roomLink, ));
+                                   
+    
 </script>
 
 </html>
