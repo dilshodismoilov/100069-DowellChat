@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+    body {
+      margin: 0 auto;
+      max-width: 800px;
+      padding: 0 20px;
+    }
+
+    .container {
+      border: 2px solid #dedede;
+      background-color: #f1f1f1;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
+    </style>
+</head>
+<body>
+
+<div align="center">
+     <h2 style="color: #4CAF50 ">Active Room List</h2>
+</div>
+
+<div class="container"  align="center">
+    {% for room in active_rooms %}
+        <a href="/{{room}}"><div>{{ room }}</div></a>
+    {% endfor %}
+    </div>
+    
+
+</body>
+</html>
+
+
+
+
+
+

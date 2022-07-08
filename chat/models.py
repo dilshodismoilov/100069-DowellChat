@@ -18,4 +18,12 @@ class Message(models.Model):
     
     def __str__(self):
         return self.user
-         
+
+class CsvUpload(models.Model):
+    file_name = models.FileField(upload_to='csv')
+    uploaded = models.DateTimeField(auto_now_add=True)
+    activated = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return f'{self.id}'
+             
