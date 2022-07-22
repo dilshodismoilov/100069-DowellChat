@@ -3,64 +3,64 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body {
-  margin: 0 auto;
-  max-width: 800px;
-  padding: 0 20px;
-}
-
-.container {
-  border: 2px solid #dedede;
-  background-color: #f1f1f1;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 0;
-}
-
-.darker {
-  border-color: #ccc;
-  background-color: #ddd;
-}
-
-.container::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-.container img {
-  float: left;
-  max-width: 60px;
-  width: 100%;
-  margin-right: 20px;
-  border-radius: 50%;
-}
-
-.container img.right {
-  float: right;
-  margin-left: 20px;
-  margin-right:0;
-}
-
-.time-right {
-  float: right;
-  color: #aaa;
-}
-
-.time-left {
-  float: left;
-  color: #999;
-}
-
-input[type=text], select {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
+    body {
+      margin: 0 auto;
+      max-width: 800px;
+      padding: 0 20px;
     }
+
+    .container {
+      border: 2px solid #dedede;
+      background-color: #f1f1f1;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
+    .darker {
+      border-color: #ccc;
+      background-color: #ddd;
+    }
+
+    .container::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    .container img {
+      float: left;
+      max-width: 60px;
+      width: 100%;
+      margin-right: 20px;
+      border-radius: 50%;
+    }
+
+    .container img.right {
+      float: right;
+      margin-left: 20px;
+      margin-right:0;
+    }
+
+    .time-right {
+      float: right;
+      color: #aaa;
+    }
+
+    .time-left {
+      float: left;
+      color: #999;
+    }
+
+    input[type=text], select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        }
 
     input[type=submit] {
     width: 100%;
@@ -82,7 +82,7 @@ input[type=text], select {
     background-color: #f2f2f2;
     padding: 20px;
     }
-    
+
     button {
     width: 15%;
     background-color: #4CAF50;
@@ -93,104 +93,84 @@ input[type=text], select {
     border-radius: 4px;
     cursor: pointer;
     }
-    
+
 </style>
-<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.all.min.js"></script>
-   
+
 </head>
 <body>
+    <h2>{{ room }} Room</h2> <h4>Welcome, {{ username }}</h4>
+    <a href="" id='genLink'><button>Invite</button></a>
+    <a href="" id='stop_room'><button>Stop</button></a>
+    <a href="/logout"><button>Logout</button></a>
+    <div><b>Current Room Users:</b><p id='roomUsers'> </p></div>
 
-<h2>{{room}} - DowellChat</h2>
+    <div id="display">
 
-<a href="" id='genLink'><button>Invite</button></a>  
-<a href=""><button>Stop</button></a>
-<div><b>Current Room Users:</b><p id= 'roomUsers'> </p></div>
-    
-    
-<div id="display">
+    </div>
 
-<!-- <div class="container darker">
-  <b>Tom</b><p>Hello Everyone, How Are You Guys Doing?</p>
-  <span class="time-left">20th, April 2021</span>
-</div> -->
-
-</div>
-
-<script>
-$(document).ready(function(){
-
-setInterval(function(){
-    $.ajax({
-        type: 'GET',
-        url : "/getMessages/{{room}}/",
-        success: function(response){
-            console.log(response);
-            $("#display").empty();
-            for (var key in response.messages)
-            {
-                var temp="<div class='container darker'>@<b>"+response.messages[key].user+"</b><p>"+response.messages[key].value+"</p><span class='time-left'>"+response.messages[key].date+"</span></div>";
-                $("#display").append(temp);                            
-            }
-            
-        },
-        error: function(response){
-            alert('An error occured')
-        }
-    });
-},1000);
-})
-
-        
-
-//Show Room users 
-function roomUsrs(){
-    $.ajax({
-        type: 'GET',
-        url : "/getMessages/{{room}}/",
-        success: function(response){
-            console.log(response);
-            $("#roomUsers").empty();
-            var msg = response.messages;
-            for (var key in msg)
-            {
-                var ky = msg[key].user;
-                var ar = [' ', ...ky, ' ']
-                $("#roomUsers").append(ar);
-               
-            }
-                     
-        }
-    
-    });
-};
-//var roomUsers = "<b>"+msg[key].user+"</b>";
-//$("#roomUsers").append(roomUsers);
-roomUsrs();
-
-
-</script>
-
-
-<div class="container">
-    
-    <form id="post-form">
-        {% csrf_token %}
-        <input type="hidden" name="username" id="username" value="{{username}}"/>
-        <input type="hidden" name="room_id" id="room_id" value="{{room_details.id}}"/>
-        <input type="text" name="message" id="message" width="100px" />
-        <input type="submit" value="Send">
-    </form>
-</div>
-  
     <script>
-         
-    
-    </script> 
+    $(document).ready(function(){
 
-</body>
- 
-<script type="text/javascript">
+    setInterval(function(){
+        $.ajax({
+            type: 'GET',
+            url : "/getMessages/{{room}}/",
+            success: function(response){
+                console.log(response);
+                $("#display").empty();
+                for (var key in response.messages)
+                {
+                    var temp="<div class='container darker'>@<b>"+response.messages[key].user+"</b><p>"+response.messages[key].value+"</p><span class='time-left'>"+response.messages[key].date+"</span></div>";
+                    $("#display").append(temp);
+                }
+
+            },
+            error: function(response){
+                alert('An error occured')
+            }
+        });
+    },1000);
+    })
+
+    //Show Room users
+
+    function roomUsrs(){
+        $.ajax({
+            type: 'GET',
+            url : "/getMessages/{{room}}/",
+            success: function(response){
+                console.log(response);
+                $("#roomUsers").empty();
+                var msg = response.messages;
+                for (var key in msg)
+                {
+                    var ky = msg[key].user;
+                    var ar = [' ', ...ky, ' ']
+                    $("#roomUsers").append(ar);
+
+                }
+
+            }
+
+        });
+    };
+    roomUsrs();
+    </script>
+
+    <div class="container">
+
+        <form id="post-form">
+            {% csrf_token %}
+           <input type="hidden" name="username" id="username" value="{{username}}"/>
+            <input type="hidden" name="room_id" id="room_id" value="{{room_details.id}}"/>
+            <input type="text" name="message" id="message" width="100px" />
+            <input type="submit" value="Send">
+        </form>
+    </div>
+
+    <script>
   $(document).on('submit','#post-form',function(e){
     e.preventDefault();
 
@@ -209,18 +189,32 @@ roomUsrs();
     });
     document.getElementById('message').value = ''
   });
-    
+
+    // Generate Invite Link
     let getLinkId = document.getElementById('genLink');
         let roomLink = "100069.pythonanywhere.com/{{ room }}/";
-        getLinkId.addEventListener("click",                                    
-                                   
+        getLinkId.addEventListener("click",
                                    (event) => {
             Swal.fire(roomLink, );
              event.preventDefault();
-        }    );    
-    
-                                   
-    
-</script>
+        } );
 
+    // Delete/Stop room
+               $(document).ready( function () {
+            $('#stop_room').click( function(){
+            var ajxReq = $.ajax( '/stop-room', {
+            type : 'DELETE'
+            });
+            ajxReq.success( function ( data, status, jqXhr ) {
+            $( "#display" ).append( "Request is Success." );
+            });
+            ajxReq.error( function ( jqXhr, textStatus, errorMessage ) {
+            $( "#display" ).append( "Request is Fail.");
+            });
+            });
+            });
+
+    </script>
+
+</body>
 </html>

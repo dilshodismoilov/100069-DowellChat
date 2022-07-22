@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Paste Room Link
+{% endblock title %}
+
+{% block page_header %}
+    <h2>Got a Room Invite Link?
+    Paste Here to join.</h2>
+{% endblock page_header %}
+
+{% block content %}
+    <form id="post-form" method= "POST" action="checkview-invite">
+        {% csrf_token %}
+        <label>Paste Room Link</label>
+        <input type="text" name="inviteLink" id="room_name" width="100px" />
+        <input type="submit" value="Join Room">
+    </form>
+{% endblock content %}
