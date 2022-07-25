@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% block links %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script   src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.8/dist/sweetalert2.all.min.js"></script>
+
+    {% endblock links %}
+
+
+    <title>Dowell Chat | {% block title %} {% endblock title %}</title>
+
+         <style>
+         {% block style %}
+        body {
+          margin: 0 auto;
+          max-width: 800px;
+          padding: 0 20px;
+        }
+
+        .container {
+          border: 2px solid #dedede;
+          background-color: #f1f1f1;
+          border-radius: 5px;
+          padding: 10px;
+          margin: 10px 0;
+        }
+
+        .darker {
+          border-color: #ccc;
+          background-color: #ddd;
+        }
+
+        .container::after {
+          content: "";
+          clear: both;
+          display: table;
+        }
+
+        .container img {
+          float: left;
+          max-width: 60px;
+          width: 100%;
+          margin-right: 20px;
+          border-radius: 50%;
+        }
+
+        .container img.right {
+          float: right;
+          margin-left: 20px;
+          margin-right:0;
+        }
+            button {
+            display: inline-block;
+            background-color: #4CAF50;
+            border-radius: 10px;
+            border: 4px double #cccccc;
+            color: #eeeeee;
+            text-align: center;
+            font-size: 28px;
+            padding: 20px;
+            width: 200px;
+            -webkit-transition: all 0.5s;
+            -moz-transition: all 0.5s;
+            -o-transition: all 0.5s;
+            transition: all 0.5s;
+            cursor: pointer;
+            margin: 5px;
+            }
+        {% endblock style %}
+        </style>
+
+
+        <script>{% block script-up %}{% endblock script-up %}</script>
+
+
+</head>
+
+<body>
+        <div align="center">
+                {% block page_header %}
+                {% endblock page_header %}
+        </div>
+
+        <div class="container">
+            {% block content %}
+                <script type="text/javascript">
+                    {% block script-mid %}
+
+                    {% endblock script-mid %}
+                </script>
+
+            {% endblock content %}
+        </div>
+
+    {% block fragments %}
+    {% endblock fragments %}
+
+    <script type="text/javascript">
+        {% block script-dwn %}
+
+        {% endblock script-dwn %}
+    </script>
+
+
+</body>
+</html>

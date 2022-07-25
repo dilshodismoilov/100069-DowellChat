@@ -34,6 +34,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    #   'django.contrib.auth.middleware.RemoteUserMiddleware'
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -69,6 +70,10 @@ DATABASES = {
     }
 }
 
+'''AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.RemoteUserBackend',
+]
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -109,4 +114,3 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
-

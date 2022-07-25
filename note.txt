@@ -1,2 +1,73 @@
 Superuser- Jude
 password - judejude
+
+# Super working with Login Function
+@csrf_exempt
+def main(request):
+    #   request.session_id = request.GET.get('session_id', None)
+    session_id = request.GET.get('session_id', None)
+    if session_id:
+        field={"SessionID":session_id}
+        sessions=dowellconnection("login","bangalore","login","login","login","6752828281","ABCDE","fetch",field,"nil")
+        session=json.loads(sessions)
+        for i in session["data"]:
+            username=i["Username"]
+        fields={"Username":username}
+
+        usr=dowellconnection("login","bangalore","login","registration","registration","10004545","ABCDE","fetch",fields,"nil")
+        #return HttpResponse(usr)
+        usrdic=json.loads(usr) # this variable have all user details
+        if len(usrdic["data"])>0:
+            request.session["user_name"]= username
+            return render(request ,'main.html')
+        else:
+            return redirect("https://100014.pythonanywhere.com/?code=100069")
+
+    else:
+        return redirect("https://100014.pythonanywhere.com/?code=100069")
+
+
+# Former room view
+def room(request, room):
+    username = request.session.get("user_name")
+    #username = request.GET.get('username')
+    room_details = Room.objects.get(name=room)
+    message = Message.objects.all()
+
+    return render(request, 'room.html', {
+        #'username': username,
+        'room': room,
+        'room_details': room_details,
+        'message': message,
+        'username': username,
+    })
+
+
+#Bulk_Cr8
+def csv_upload(request):
+    room_list = []
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            obj = CsvUpload.objects.get(activated=False)
+            with open(obj.file_name.path, 'r') as f:
+                reader = csv.reader(f)
+                for room in enumerate(reader):
+
+                    if len(room) == 0:
+                         return HttpResponse('Make sure the file is not empty')
+                    else:
+                        getRoom = Room(name=room[1][0])
+                        room_list.append(getRoom)
+                        #Room.objects.create(name=room[1][0])
+                        #return redirect('/success')
+                Room.objects.bulk_create(room_list)
+
+                obj.activated = True
+                obj.save()
+                return redirect('/success')
+
+    else:
+        form = UploadFileForm()
+    return render(request, 'upload.html', {'form': form})

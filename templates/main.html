@@ -56,8 +56,8 @@
         -o-transition: all 0.5s;
         transition: all 0.5s;
         cursor: pointer;
-        margin: 5px;    
-        }    
+        margin: 5px;
+        }
     </style>
 </head>
 <body>
@@ -67,14 +67,23 @@
 </div>
 
 <div class="container">
-    <a href="{% url 'home' %}"><button>
-        Create Room
-    </button></a>
-    <a href="{% url 'upload' %}" style="float: right"><button>
-        Create Bulk Rooms
-    </button></a>    
-</div>
+    {% if role == "Admin" %}
+        <a href="{% url 'enter-room' %}"><button>
+            Create Room
+        </button></a>
+        <a href="{% url 'upload' %}"><button>
+            Create Bulk Rooms
+        </button></a>
+        <a href="{% url 'list-rooms' %}"><button>
+            See All Rooms
+        </button></a>
+    {% else %}
+        <a href="{% url 'paste-room' %}"><button>
+            Enter Room
+        </button></a>
+    {% endif %}
 
+</div>
 
 </body>
 </html>
