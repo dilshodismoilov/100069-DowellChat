@@ -11,10 +11,10 @@ class Room(models.Model):
         return self.name
     
 class Message(models.Model):
-    value = models.CharField(max_length=1000000)
+    value = models.CharField(max_length=254)
     date = models.DateTimeField(default=timezone.now, blank=True)
-    user = models.CharField(max_length=1000000)
-    room = models.CharField(max_length=1000000)
+    user = models.CharField(max_length=254)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.user

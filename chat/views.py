@@ -83,11 +83,12 @@ def stopRoom(request, room):
     message = request.POST['message']
     username = request.POST['username']
     room_id = request.POST['room_id']
+    room = Room.objects.get(pk=room_id)
     dlt_message = Message.objects.filter(value=message)
     dlt_message.delete()
     dlt_username = Message.objects.filter(user=username)
     dlt_username.delete()
-    dlt_roomID =  Message.objects.filter(room=room_id)
+    dlt_roomID =  Message.objects.filter(room=room)
     dlt_roomID.delete()
     return HttpResponse('Room Successfully Stopped!')
 
@@ -155,12 +156,13 @@ def send(request):
     #username = request.POST['username']
     username = request.session.get("user_name")
     room_id = request.POST['room_id']
+    room = Room.objects.get(pk=room_id)
 
-    new_message = Message.objects.create(value=message, user=username, room=room_id)
+    new_message = Message.objects.create(value=message, user=username, room=room)
     new_message.save()
     return HttpResponse('Message sent successfully')
 
 def getMessages(request, room):
     room_details = Room.objects.get(name=room)
-    messages = Message.objects.filter(room=room_details.id)
+    messages = Message.objects.filter(room=room_details)
     return JsonResponse({"messages":list(messages.values())})
